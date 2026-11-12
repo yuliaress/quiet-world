@@ -39,14 +39,16 @@ button{font:inherit;color:inherit;cursor:pointer}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:.6em;margin-top:.7em}
 .btn{border:2px solid var(--line);background:var(--paper);padding:.45em .3em;font-family:var(--pix);font-size:.9em}
 .btn:hover{background:var(--ink);color:var(--paper)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
 
 .bar{height:1.1em;border:2px solid var(--line);background:var(--paper);margin:.4em 0 .3em;overflow:hidden}
 .bar i{display:block;height:100%;width:50%;background:repeating-linear-gradient(90deg,var(--ink) 0 6px,var(--paper) 6px 8px);transition:width .3s}
 .pmeta{display:flex;justify-content:flex-end;gap:1em;font-size:.75em;font-family:var(--pix)}
 
-.todo{display:flex;align-items:center;gap:.7em;border:2px solid var(--line);background:var(--paper);padding:.55em .7em;margin-top:.5em;cursor:pointer;user-select:none}
+.todo{display:flex;align-items:center;gap:.7em;border:2px solid var(--line);background:var(--paper);padding:.45em .55em;margin-top:.5em;user-select:none}
 .todo:first-of-type{margin-top:.2em}
 .cb{width:1.3em;height:1.3em;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-size:.9em;font-weight:700;background:var(--paper)}
+.todo-toggle{border:0;padding:0;background:none;cursor:pointer}
 .todo.done .cb{background:var(--ink);color:var(--paper)}
 .todo .tx{flex:1;min-width:0}
 .todo .tag{font-family:var(--pix);font-weight:700;font-size:.82em}
@@ -54,12 +56,32 @@ button{font:inherit;color:inherit;cursor:pointer}
 .todo .d{display:block}
 .todo.done .d{text-decoration:line-through;color:var(--dim)}
 .todo .st{font-size:.95em}
+.todo-actions{display:flex}
+.todo-edit,.todo-remove,.routine-action{border:0;background:none;padding:.2em .35em;color:var(--dim);cursor:pointer}
+.todo-edit:hover,.todo-remove:hover,.routine-action:hover{background:var(--ink);color:var(--paper)}
+.entry-form{display:grid;grid-template-columns:1fr auto;gap:.4em;margin-top:.6em}
+.entry-form input{min-width:0;width:100%;border:2px solid var(--line);background:var(--paper);padding:.5em .6em;font:inherit}
+.entry-form input:focus{outline:2px solid var(--dim);outline-offset:1px}
+.entry-form .btn{min-width:2.4em}
+.todo-edit-form,.routine-edit-form{display:grid;gap:.35em}
+.todo-edit-form{grid-template-columns:minmax(0,1fr) auto auto;width:100%}
+.routine-edit-form{grid-template-columns:minmax(0,1fr) auto;width:100%}
+.todo-edit-form input,.routine-edit-form input{min-width:0;width:100%;border:2px solid var(--line);background:var(--paper);padding:.4em;font:inherit}
+.todo-edit-form input{grid-column:1}
+.routine-edit-form input:nth-child(2){grid-column:1;grid-row:2}
+.routine-edit-form button:nth-of-type(1){grid-column:2;grid-row:1}
+.routine-edit-form button:nth-of-type(2){grid-column:2;grid-row:2}
+#routine-form input:nth-child(2){grid-column:1}
+#routine-form button{grid-column:2;grid-row:1 / span 2}
 
 .rt{display:flex;justify-content:space-between;align-items:center;gap:.5em;border:2px solid var(--line);padding:.55em .7em;margin-top:.5em;background:var(--paper)}
 .rt b{font-family:var(--pix);font-size:.9em}
 .rt small{display:block;color:var(--dim);font-size:.8em}
-.rt.add{width:100%;justify-content:center;font-family:var(--pix);cursor:pointer}
-.rt.add:hover{background:var(--ink);color:var(--paper)}
+.rt.done{background:var(--paper2)}
+.routine-toggle{display:flex;align-items:center;gap:.6em;flex:1;text-align:left;border:0;background:none;padding:0;cursor:pointer}
+.routine-toggle .routine-check{font-size:1.2em}
+.rt.done .routine-check{font-weight:700}
+.routine-actions{display:flex}
 
 /* CENTER */
 .scene{
@@ -86,12 +108,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 .log ul.open{max-height:30em;overflow-y:auto}
 .log li{padding:.15em 0;font-size:.92em}
 .log li::before{content:"· ";}
+.log li.empty{color:var(--dim)}
+.log li.empty::before{content:""}
 
 /* RIGHT */
 .days{display:flex;align-items:baseline;gap:.8em;flex-wrap:wrap}
 .days b{font-family:var(--pix);font-size:3em;line-height:1}
 .days span{font-size:.8em;color:var(--dim)}
 .state{display:flex;align-items:center;gap:.9em}
+.state.mood{width:100%;border:0;background:none;text-align:left;padding:0}
 .state .ico{font-size:2.4em}
 .state b{font-weight:400;display:block}
 .state small{color:var(--dim);font-size:.82em}
@@ -102,6 +127,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .bgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5em;text-align:center}
 .bgrid .b{aspect-ratio:1;display:grid;place-items:center;font-size:1.9em;border:2px solid var(--line);background:var(--paper2);margin-bottom:.3em}
 .bgrid .b.lock{border-style:dashed;background:var(--paper);opacity:.85}
+.bgrid .badge.unlocked{background:var(--ink);color:var(--paper)}
+.bgrid .badge.lock{color:var(--dim)}
 .bgrid small{font-family:var(--pix);font-size:.62em;display:block;letter-spacing:.02em}
 
 .mai{background:#16161a;color:#eee;border:2px solid var(--line);box-shadow:inset 0 0 0 2px #16161a,inset 0 0 0 3px #555;min-height:150px;aspect-ratio:1.5;position:relative;padding:.6em .8em}

@@ -16,23 +16,30 @@
     <div class="box brand"><span class="leaf ico">🌱</span><div><b>QUIET WORLD</b><span>조용히 켜 두자</span></div></div>
 
     <div class="box"><div class="lbl">DATE</div>
-      <div class="date"><span id="date">2026. 6. 12 금요일</span><span class="ico">🕒</span></div></div>
+      <div class="date"><span id="date"></span><span class="ico">🕒</span></div></div>
 
     <div class="box"><div class="lbl">TIMER</div>
-      <div class="timer-row"><span class="time" id="time">10:32:48</span><span class="start">시작 08:59:21</span></div>
-      <div class="btns"><button class="btn" id="pause">⏸ PAUSE</button><button class="btn" id="stop">■ STOP</button></div></div>
+      <div class="timer-row"><span class="time" id="time">00:00:00</span><span class="start" id="start-time">시작하지 않음</span></div>
+      <div class="btns"><button class="btn" id="pause" type="button">▶ START</button><button class="btn" id="stop" type="button" disabled>■ STOP</button></div></div>
 
     <div class="box"><div class="lbl">TODAY PROGRESS</div>
       <div class="bar"><i id="barfill"></i></div>
-      <div class="pmeta"><span id="pcount">3 / 6</span><span id="ppct">50%</span></div></div>
+      <div class="pmeta"><span id="pcount">0 / 6</span><span id="ppct">0%</span></div></div>
 
     <div class="box"><div class="lbl">TODO<small>오늘만 수정 가능</small></div>
-      <div id="todos"></div></div>
+      <div id="todos"></div>
+      <form class="entry-form" id="todo-form">
+        <input id="todo-input" maxlength="80" placeholder="할 일 추가" aria-label="새 할 일" required>
+        <button class="btn" type="submit" aria-label="할 일 추가">+</button>
+      </form></div>
 
     <div class="box"><div class="lbl">ROUTINE<small>매일 습관 묶음</small></div>
-      <div class="rt"><div><b>☀ MORNING</b><small>물 마시기 / 스트레칭 / 창문 열기</small></div><span>✎</span></div>
-      <div class="rt"><div><b>☾ NIGHT</b><small>정리 / 기록 / 내일 준비</small></div><span>⌄</span></div>
-      <button class="rt add">+ 루틴 추가</button></div>
+      <div id="routines"></div>
+      <form class="entry-form" id="routine-form">
+        <input id="routine-name" maxlength="32" placeholder="새 루틴 이름" aria-label="새 루틴 이름" required>
+        <input id="routine-description" maxlength="80" placeholder="간단한 설명 (선택)" aria-label="루틴 설명">
+        <button class="btn" type="submit" aria-label="루틴 추가">+</button>
+      </form></div>
   </aside>
 
   <!-- CENTER -->
@@ -47,11 +54,7 @@
 
     <div class="box log"><div class="head"><div class="lbl" style="margin:0">DAY LOG<small>오늘의 기록</small></div>
       <button class="more" id="more">더 보기 ▾</button></div>
-      <ul id="logs">
-        <li>10:31 낡은 노트를 주웠다. [ECHO +1]</li>
-        <li>09:20 아침 루틴 끝. [FLOW +1]</li>
-        <li>09:00 타이머를 켰다.</li>
-      </ul></div>
+      <ul id="logs"></ul></div>
   </main>
 
   <!-- RIGHT -->
@@ -60,26 +63,28 @@
       <div class="days"><b>175</b><span>마이랑 지낸 날</span></div></div>
 
     <div class="box"><div class="lbl">STATE</div>
-      <div class="state"><span class="ico">🌧</span><div><b>비 온다.</b><small>창밖만 멍하니 보는 중.</small></div></div></div>
+      <button class="state mood" id="mood" type="button" aria-label="기분 바꾸기">
+        <span class="ico"></span><span><b></b><small></small></span>
+      </button></div>
 
     <div class="box"><div class="lbl">FRAGMENT</div>
       <div class="fgrid" id="frag"></div></div>
 
-    <div class="box"><div class="lbl">BADGE <small>3 / 12</small></div>
-      <div class="bgrid">
-        <div><div class="b ico">🛡</div><small>COMMON</small></div>
-        <div><div class="b ico">📖</div><small>RARE</small></div>
-        <div><div class="b lock">🔒</div><small>EPIC</small></div>
-        <div><div class="b lock">🔒</div><small>LEGENDARY</small></div>
-      </div></div>
+    <div class="box"><div class="lbl">BADGE <small id="badge-count">0 / 4</small></div>
+      <div class="bgrid" id="badges"></div></div>
 
     <div class="mai"><div class="nm">마이</div><div class="bubble">…오늘은<br>조용하네.</div></div>
   </aside>
 </div>
+<script src="js/storage.js"></script>
+<script src="js/date.js"></script>
 <script src="js/timer.js"></script>
 <script src="js/day-log.js"></script>
 <script src="js/fragments.js"></script>
 <script src="js/todos.js"></script>
+<script src="js/routines.js"></script>
+<script src="js/mood.js"></script>
+<script src="js/badges.js"></script>
 <script src="js/world.js"></script>
 </body>
 </html>
