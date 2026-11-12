@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111111">
 <title>QUIET WORLD</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -43,7 +45,29 @@
 
   <!-- CENTER -->
   <main class="col center">
-    <div class="scene" id="scene"><canvas id="world" width="320" height="200"></canvas><div class="hint">← ↑ ↓ → / WASD 이동 · Shift 달리기</div><div class="plate">비 오는 거리</div></div>
+    <section class="box room-panel" aria-labelledby="room-heading">
+      <div class="room-head">
+        <div><div class="lbl" id="room-heading">MY ROOM<small>나만의 작은 방</small></div>
+          <p class="room-help">할 일과 루틴으로 재료를 모으세요. 소품을 골라 배치하고, 놓인 소품을 누르면 회수할 수 있어요.</p></div>
+        <span class="room-count" id="room-count">0 / 32</span>
+      </div>
+      <div class="room-grid" id="room-grid" role="grid" aria-label="내 방 배치 공간"></div>
+      <p class="room-status" id="room-status" aria-live="polite">작업대에서 소품을 만든 뒤 보관함에서 골라 배치하세요.</p>
+      <div class="room-management">
+        <section class="room-section">
+          <h3>보관함</h3>
+          <div class="room-inventory" id="room-inventory"></div>
+        </section>
+        <section class="room-section">
+          <h3>작업대</h3>
+          <div class="craft-grid" id="room-crafting"></div>
+        </section>
+      </div>
+      <div class="room-footer">
+        <span id="pwa-status">오프라인에서도 이어서 할 수 있어요.</span>
+        <button class="btn install-app" id="install-app" type="button" hidden>앱 설치</button>
+      </div>
+    </section>
 
     <div class="box disc" id="disc">
       <div class="thumb ico">📕</div>
@@ -84,6 +108,7 @@
 <script src="js/routines.js"></script>
 <script src="js/mood.js"></script>
 <script src="js/badges.js"></script>
-<script src="js/world.js"></script>
+<script src="js/room.js"></script>
+<script src="js/pwa.js"></script>
 </body>
 </html>

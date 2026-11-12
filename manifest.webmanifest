@@ -1,0 +1,19 @@
+{
+  "name": "QUIET WORLD - 조용한 하루",
+  "short_name": "QUIET WORLD",
+  "description": "작은 루틴과 집중으로 나만의 방을 꾸며 가는 생활 보조형 게임",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "assets/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

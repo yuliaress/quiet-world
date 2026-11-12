@@ -29,6 +29,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .col{display:flex;flex-direction:column;gap:clamp(8px,.7vw,12px);min-height:0;min-width:0}
 .col.side{overflow-y:auto;scrollbar-width:none}
 .col.side::-webkit-scrollbar{display:none}
+.col.center{overflow-y:auto;scrollbar-width:none}
+.col.center::-webkit-scrollbar{display:none}
 
 /* 패널: 굵은 이중 테두리 */
 .box{
@@ -97,14 +99,6 @@ button{font:inherit;color:inherit;cursor:pointer}
 .routine-actions{display:flex}
 
 /* CENTER */
-.scene{
-  flex:1; min-height:200px; background:#000; position:relative;
-  border:2px solid #2a2a2a;
-}
-.plate{
-  position:absolute;right:4%;bottom:5%;background:#555;color:#ddd;
-  padding:.45em 1.3em;border:1px solid #888;font-family:var(--pix);font-size:.92em
-}
 .disc{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(10px,1.4vw,22px);align-items:center}
 .disc .thumb{width:clamp(56px,6vw,92px);aspect-ratio:1;border:2px dotted var(--line);display:grid;place-items:center;font-size:clamp(28px,3.4vw,50px);background:var(--paper2)}
 .disc h3{font-family:var(--pix);font-size:1.22em;line-height:1.3;margin-bottom:.4em}
@@ -114,6 +108,45 @@ button{font:inherit;color:inherit;cursor:pointer}
 .btn.pri:hover{background:#333}
 .btn.alt{padding:.8em .5em}
 .disc.hide{display:none}
+
+.room-panel{display:grid;gap:.8em;flex:none}
+.room-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1em}
+.room-head .lbl{margin-bottom:.2em}
+.room-help{color:var(--dim);font-size:.88em;line-height:1.45}
+.room-count{flex:none;border:2px solid var(--line);padding:.2em .55em;font-family:var(--pix);font-size:.9em}
+.room-grid{
+  position:relative;isolation:isolate;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));aspect-ratio:2;
+  border:3px solid var(--line);background:linear-gradient(to bottom,#deded8 0 48%,#85847d 48% 50%,#c4c2b9 50% 100%);overflow:hidden
+}
+.room-grid::before{
+  content:"";position:absolute;z-index:-1;left:8%;top:7%;width:18%;height:34%;border:3px solid var(--line);
+  background:linear-gradient(90deg,transparent 47%,#77766f 48% 52%,transparent 53%),linear-gradient(transparent 47%,#77766f 48% 52%,transparent 53%),#f1f1ee;
+  box-shadow:inset 0 0 0 3px #f1f1ee;pointer-events:none
+}
+.room-tile{min-width:0;min-height:0;border:1px dashed rgba(17,17,17,.16);background:transparent;display:grid;place-items:center}
+.room-tile:hover,.room-tile:focus-visible{background:rgba(255,255,255,.42);outline:2px solid var(--ink);outline-offset:-3px}
+.room-tile.can-place{color:var(--dim);font-family:var(--pix);font-size:1.4em}
+.room-tile.occupied{background:rgba(255,255,255,.16)}
+.furniture-icon{font-size:clamp(20px,3vw,34px);line-height:1}
+.room-status{min-height:1.4em;color:var(--dim);font-size:.88em;line-height:1.4}
+.room-management{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(10px,1vw,16px)}
+.room-section{min-width:0}
+.room-section h3{font-family:var(--pix);font-size:.96em;margin-bottom:.4em}
+.room-inventory{display:flex;flex-wrap:wrap;gap:.4em}
+.inventory-item{display:flex;align-items:center;gap:.35em;border:2px solid var(--line);background:var(--paper);padding:.25em .45em;font-size:.82em;line-height:1.25}
+.inventory-item:hover,.inventory-item.selected{background:var(--ink);color:var(--paper)}
+.inventory-item .ico{font-size:1.3em}
+.room-empty{color:var(--dim);font-size:.82em;line-height:1.45}
+.craft-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45em}
+.craft-card{min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.15em .4em;border:1px solid #aaa99f;padding:.35em .45em}
+.craft-card strong{min-width:0;display:flex;align-items:center;gap:.25em;overflow:hidden;font-size:.82em}
+.craft-card strong .ico{flex:none}
+.craft-card .craft-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.craft-cost{grid-column:1;color:var(--dim);font-size:.72em;line-height:1.2}
+.craft-button{grid-column:2;grid-row:1 / span 2;padding:.3em .4em;font-size:.78em}
+.craft-button:disabled{cursor:not-allowed;opacity:.4}
+.room-footer{display:flex;justify-content:space-between;align-items:center;gap:.8em;border-top:1px solid #c5c4bc;padding-top:.45em;color:var(--dim);font-size:.78em}
+.install-app{flex:none;padding:.25em .55em;font-size:.82em}
 
 .log .head{display:flex;justify-content:space-between;align-items:baseline;gap:1em}
 .log .more{background:none;border:0;font-size:.9em;color:var(--dim);white-space:nowrap}
@@ -154,14 +187,10 @@ button{font:inherit;color:inherit;cursor:pointer}
   .app{grid-template-columns:minmax(0,1fr) minmax(0,1fr);height:auto;min-height:100dvh}
   .col.side{overflow:visible}
   .col.center{grid-column:1 / -1;order:-1}
-  .col.center .scene{min-height:34vh;flex:none}
 }
 @media (max-width:640px){
   .app{grid-template-columns:1fr}
   .disc{grid-template-columns:auto 1fr}
   .disc .acts{grid-column:1 / -1;flex-direction:row}
   .disc .acts .btn{flex:1}
-  .col.center .scene{min-height:26vh}
 }
-.scene canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);image-rendering:pixelated}
-.scene .hint{position:absolute;left:3%;bottom:5%;color:#aaa;font-family:var(--pix);font-size:.8em;background:rgba(0,0,0,.55);padding:.2em .7em}

@@ -2,8 +2,9 @@
 const $=s=>document.querySelector(s), Q=window.QuietWorld;
 const key='fragments';
 const names=[['생기','🧪'],['집중','📕'],['메아리','🖼'],['흐름','⏱'],['반짝임','✏️'],['연결','🗝']];
+const indexById={vitality:0,focus:1,echo:2,flow:3,spark:4,bond:5};
 let state=Q.read(key,{counts:[0,0,0,0,0,0],bookHandled:false,bookPicked:false});
-if(!Array.isArray(state.counts)||state.counts.length!==names.length) throw new TypeError('Saved fragment data is invalid.');
+if(!Array.isArray(state.counts)||state.counts.length!==names.length||state.counts.some(count=>!Number.isInteger(count)||count<0)) throw new TypeError('Saved fragment data is invalid.');
 
 function draw(){
   $('#frag').replaceChildren(...names.map(([name,icon],index)=>{
@@ -23,6 +24,25 @@ window.addFragment=index=>{
   Q.write(key,state);
   draw();
   Q.changed();
+};
+
+function getCostEntries(costs){
+  if(!costs||typeof costs!=='object'||Array.isArray(costs)) throw new TypeError('Fragment recipe is invalid.');
+  const entries=Object.entries(costs);
+  if(entries.some(([id,count])=>!Number.isInteger(indexById[id])||!Number.isInteger(count)||count<1)) throw new TypeError('Fragment recipe is invalid.');
+  return entries;
+}
+
+window.canSpendFragments=costs=>getCostEntries(costs).every(([id,count])=>state.counts[indexById[id]]>=count);
+
+window.spendFragments=costs=>{
+  const entries=getCostEntries(costs);
+  if(!entries.every(([id,count])=>state.counts[indexById[id]]>=count)) return false;
+  entries.forEach(([id,count])=>{state.counts[indexById[id]]-=count});
+  Q.write(key,state);
+  draw();
+  Q.changed();
+  return true;
 };
 
 function handleBook(picked){
