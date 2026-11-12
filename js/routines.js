@@ -2,13 +2,18 @@
 const $=s=>document.querySelector(s), Q=window.QuietWorld, date=Q.today();
 const routinesKey='routines';
 const defaults=[
-  {id:'morning',name:'☀ MORNING',description:'물 마시기 / 스트레칭 / 창문 열기'},
-  {id:'night',name:'☾ NIGHT',description:'정리 / 기록 / 내일 준비'}
+  {id:'morning',icon:'☀',name:'MORNING',description:'물 마시기 / 스트레칭 / 창문 열기'},
+  {id:'night',icon:'☾',name:'NIGHT',description:'정리 / 기록 / 내일 준비'}
 ];
 let routines=Q.read(routinesKey,defaults);
 let checks=Q.read(`routine-checks:${date}`,{done:{},rewarded:{}});
 let editingId=null;
 if(!Array.isArray(routines)||!checks.done||!checks.rewarded) throw new TypeError('Saved routine data is invalid.');
+routines=routines.map(routine=>{
+  if(routine.id==='morning'&&routine.name==='☀ MORNING') return {...routine,icon:'☀',name:'MORNING'};
+  if(routine.id==='night'&&routine.name==='☾ NIGHT') return {...routine,icon:'☾',name:'NIGHT'};
+  return routine;
+});
 
 function draw(){
   $('#routines').replaceChildren(...routines.map(routine=>{
@@ -31,7 +36,8 @@ function draw(){
     }
     const row=document.createElement('div'), toggle=document.createElement('button');
     const text=document.createElement('span'), name=document.createElement('b');
-    const description=document.createElement('small'), check=document.createElement('span');
+    const icon=document.createElement('span'), description=document.createElement('small');
+    const check=document.createElement('span');
     const actions=document.createElement('span'), edit=document.createElement('button');
     const remove=document.createElement('button'), done=Boolean(checks.done[routine.id]);
     row.className=`rt${done?' done':''}`;
@@ -40,9 +46,10 @@ function draw(){
     toggle.setAttribute('aria-pressed',String(done));
     toggle.setAttribute('aria-label',`${done?'완료 취소':'완료'}: ${routine.name}`);
     text.className='routine-text';
+    icon.className='ico routine-icon'; icon.textContent=routine.icon||'';
     name.textContent=routine.name; description.textContent=routine.description;
     check.className='routine-check'; check.textContent=done?'✓':'○';
-    text.append(name,description); toggle.append(text,check);
+    text.append(icon,name,description); toggle.append(text,check);
     actions.className='routine-actions';
     edit.className='routine-action'; edit.type='button'; edit.dataset.action='edit';
     edit.setAttribute('aria-label',`루틴 수정: ${routine.name}`); edit.textContent='✎';
