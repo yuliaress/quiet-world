@@ -132,6 +132,8 @@ button{font:inherit;color:inherit;cursor:pointer}
   .disc .acts .btn{flex:1}
   .col.center .scene{min-height:26vh}
 }
+.scene canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);image-rendering:pixelated}
+.scene .hint{position:absolute;left:3%;bottom:5%;color:#aaa;font-family:var(--pix);font-size:.8em;background:rgba(0,0,0,.55);padding:.2em .7em}
 </style>
 </head>
 <body>
@@ -139,7 +141,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 
   <!-- LEFT -->
   <aside class="col side">
-    <div class="box brand"><span class="leaf ico">🌱</span><div><b>QUIET WORLD</b><span>하루마다 열리는 조용한 디지털 세계</span></div></div>
+    <div class="box brand"><span class="leaf ico">🌱</span><div><b>QUIET WORLD</b><span>조용히 켜 두자</span></div></div>
 
     <div class="box"><div class="lbl">DATE</div>
       <div class="date"><span id="date">2026. 6. 12 금요일</span><span class="ico">🕒</span></div></div>
@@ -155,7 +157,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="box"><div class="lbl">TODO<small>오늘만 수정 가능</small></div>
       <div id="todos"></div></div>
 
-    <div class="box"><div class="lbl">ROUTINE<small>오늘의 행동 묶음</small></div>
+    <div class="box"><div class="lbl">ROUTINE<small>매일 습관 묶음</small></div>
       <div class="rt"><div><b>☀ MORNING</b><small>물 마시기 / 스트레칭 / 창문 열기</small></div><span>✎</span></div>
       <div class="rt"><div><b>☾ NIGHT</b><small>정리 / 기록 / 내일 준비</small></div><span>⌄</span></div>
       <button class="rt add">+ 루틴 추가</button></div>
@@ -163,30 +165,30 @@ button{font:inherit;color:inherit;cursor:pointer}
 
   <!-- CENTER -->
   <main class="col center">
-    <div class="scene"><div class="plate">비 오는 거리</div></div>
+    <div class="scene" id="scene"><canvas id="world" width="320" height="200"></canvas><div class="hint">← ↑ ↓ → / WASD 이동 · Shift 달리기</div><div class="plate">비 오는 거리</div></div>
 
     <div class="box disc" id="disc">
       <div class="thumb ico">📕</div>
-      <div><h3>무언가 발견되었다.</h3><p>빛바랜 표지가 젖어 있다.<br>누군가의 기록이었던 것 같다.</p></div>
-      <div class="acts"><button class="btn pri" id="take">조각 획득 ✦</button><button class="btn alt" id="leave">그냥 두기</button></div>
+      <div><h3>뭔가 떨어져 있다.</h3><p>표지가 다 젖은 낡은 책이다.<br>누가 쓰던 노트 같다.</p></div>
+      <div class="acts"><button class="btn pri" id="take">줍기 ✦</button><button class="btn alt" id="leave">그냥 두기</button></div>
     </div>
 
     <div class="box log"><div class="head"><div class="lbl" style="margin:0">DAY LOG<small>오늘의 기록</small></div>
       <button class="more" id="more">더 보기 ▾</button></div>
       <ul id="logs">
-        <li>10:31 작은 기록을 발견했다. [ECHO Fragment +1]</li>
-        <li>09:20 오늘의 루틴 [MORNING] 완료. [FLOW Fragment +1]</li>
-        <li>09:00 타이머를 시작했다.</li>
+        <li>10:31 낡은 노트를 주웠다. [ECHO +1]</li>
+        <li>09:20 아침 루틴 끝. [FLOW +1]</li>
+        <li>09:00 타이머를 켰다.</li>
       </ul></div>
   </main>
 
   <!-- RIGHT -->
   <aside class="col side">
     <div class="box"><div class="lbl">DAYS TOGETHER</div>
-      <div class="days"><b>175</b><span>마이와 함께한 날</span></div></div>
+      <div class="days"><b>175</b><span>마이랑 지낸 날</span></div></div>
 
     <div class="box"><div class="lbl">STATE</div>
-      <div class="state"><span class="ico">🌧</span><div><b>비가 내린다.</b><small>창밖을 멍하니 바라보고 있다.</small></div></div></div>
+      <div class="state"><span class="ico">🌧</span><div><b>비 온다.</b><small>창밖만 멍하니 보는 중.</small></div></div></div>
 
     <div class="box"><div class="lbl">FRAGMENT</div>
       <div class="fgrid" id="frag"></div></div>
@@ -222,13 +224,13 @@ $('#more').onclick=()=>{const o=$('#logs').classList.toggle('open');$('#more').t
 const frags=[['생기','🧪',2],['집중','📕',1],['메아리','🖼',2],['흐름','⏱',1],['반짝임','✏️',0],['연결','🗝',1]];
 const drawFrag=()=>$('#frag').innerHTML=frags.map(f=>`<div><div class="n">${f[0]}</div><span class="ic ico">${f[1]}</span><div class="c">${f[2]}</div></div>`).join('');
 drawFrag();
-$('#take').onclick=()=>{frags[2][2]++;drawFrag();log('작은 기록을 발견했다. [ECHO Fragment +1]');$('#disc').classList.add('hide')};
-$('#leave').onclick=()=>{log('발견한 것을 그냥 두었다.');$('#disc').classList.add('hide')};
+$('#take').onclick=()=>{frags[2][2]++;drawFrag();log('낡은 노트를 주웠다. [ECHO +1]');$('#disc').classList.add('hide')};
+$('#leave').onclick=()=>{log('그냥 두고 지나갔다.');$('#disc').classList.add('hide')};
 
 /* TODO */
-const todos=[['VITALITY','생기 / 회복','물 두 컵 마시기',1,'VITALITY'],['FOCUS','집중 / 몰입','과제 20분 시작하기',1],
- ['ECHO','메아리 / 감정','감정 한 줄 기록하기',0],['FLOW','흐름 / 루틴','오늘 루틴 완료하기',1],
- ['SPARK','반짝임 / 창작','작은 창작 행동 하기',0],['BOND','연결 / 관계','누군가에게 짧게 말 걸기',0]];
+const todos=[['VITALITY','생기 / 몸','물 두 컵 마시기',1],['FOCUS','집중 / 시작','과제 20분만 해 보기',1],
+ ['ECHO','메아리 / 마음','오늘 기분 한 줄 적기',0],['FLOW','흐름 / 루틴','오늘 루틴 다 하기',1],
+ ['SPARK','반짝임 / 만들기','뭐든 하나 만들어 보기',0],['BOND','연결 / 사람','누구한테든 말 한마디 하기',0]];
 function drawTodos(){
   $('#todos').innerHTML=todos.map((t,i)=>`<div class="todo ${t[3]?'done':''}" data-i="${i}">
     <span class="cb">${t[3]?'✓':''}</span>
@@ -239,6 +241,126 @@ function drawTodos(){
 $('#todos').onclick=e=>{const el=e.target.closest('.todo');if(!el)return;
   const t=todos[+el.dataset.i];t[3]=t[3]?0:1;drawTodos()};
 drawTodos();
+</script>
+<script>
+/* WORLD: 쯔꾸르식 타일 이동 */
+(()=>{
+const SPRITE='data:image/png;base64,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';
+const T=20, CW=20, CH=27;               // 타일 크기 / 스프라이트 칸 크기
+const MAP=[                              // # 벽  L 가로등  B 벤치  C 상자  . 바닥
+ '################',
+ '#..............#',
+ '#..L.......B...#',
+ '#..............#',
+ '#......CC......#',
+ '#......C.......#',
+ '#..............#',
+ '#.L..........L.#',
+ '#..............#',
+ '################'];
+const W=MAP[0].length, H=MAP.length;
+const $=s=>document.querySelector(s);
+const cv=$('#world'), ctx=cv.getContext('2d');
+cv.width=W*T; cv.height=H*T;
+const img=new Image(); img.src=SPRITE;
+
+/* 시트의 열 = 방향. 방향이 반대로 보이면 left/right 숫자만 서로 바꾸면 된다 */
+const COL={down:0,left:1,up:2,right:3};
+const VEC={down:[0,1],left:[-1,0],up:[0,-1],right:[1,0]};
+const KEY={ArrowDown:'down',KeyS:'down',ArrowLeft:'left',KeyA:'left',ArrowUp:'up',KeyW:'up',ArrowRight:'right',KeyD:'right'};
+
+/* 입력 (e.code 기준이라 한글 입력 상태에서도 WASD가 동작한다) */
+const held=[]; let shift=false;
+addEventListener('keydown',e=>{
+  if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  if(e.key==='Shift') shift=true;
+  const d=KEY[e.code]; if(!d) return;
+  e.preventDefault(); if(!held.includes(d)) held.push(d);
+});
+addEventListener('keyup',e=>{
+  if(e.key==='Shift') shift=false;
+  const d=KEY[e.code]; if(d){const i=held.indexOf(d); if(i>-1) held.splice(i,1);}
+});
+addEventListener('blur',()=>{held.length=0; shift=false;});
+
+/* 플레이어 */
+const p={x:7,y:6,tx:7,ty:6,t:0,moving:false,dir:'down',anim:0};
+const solid=(x,y)=>x<0||y<0||x>=W||y>=H||MAP[y][x]!=='.';
+
+function update(dt){
+  let left=(shift?6.5:4)*dt;            // 초당 타일 수
+  while(left>0){
+    if(!p.moving){
+      const d=held[held.length-1];
+      if(!d){p.anim=0;break;}
+      p.dir=d;                           // 막혀 있어도 방향은 바뀐다
+      const [vx,vy]=VEC[d];
+      if(solid(p.x+vx,p.y+vy)){p.anim=0;break;}
+      p.tx=p.x+vx; p.ty=p.y+vy; p.t=0; p.moving=true;
+    }
+    const use=Math.min(left,1-p.t);
+    p.t+=use; p.anim+=use; left-=use;
+    if(p.t>=1-1e-9){p.x=p.tx; p.y=p.ty; p.t=0; p.moving=false;}
+  }
+}
+
+/* 그리기 */
+function drawFloor(x,y){
+  ctx.fillStyle=(x+y)%2?'#8a8a86':'#848480'; ctx.fillRect(x*T,y*T,T,T);
+  ctx.fillStyle='#6f6f6b'; ctx.fillRect(x*T+9,y*T+9,2,2);
+}
+function drawWall(x,y){
+  const X=x*T,Y=y*T;
+  ctx.fillStyle='#2e2e32'; ctx.fillRect(X,Y,T,T);
+  ctx.fillStyle='#3d3d42'; ctx.fillRect(X,Y,T,2);
+  ctx.fillStyle='#1c1c20'; ctx.fillRect(X,Y+T-2,T,2);
+  ctx.fillRect(X,Y+9,T,1); ctx.fillRect(X+(y%2?5:13),Y,1,9); ctx.fillRect(X+(y%2?13:5),Y+10,1,8);
+}
+function drawObj(c,x,y){
+  const X=x*T,Y=y*T;
+  if(c==='L'){
+    ctx.fillStyle='#222'; ctx.fillRect(X+9,Y-14,2,34);
+    ctx.fillStyle='#f1f1ee'; ctx.fillRect(X+5,Y-18,10,5);
+    ctx.fillStyle='#111'; ctx.fillRect(X+4,Y+17,12,3);
+  }else if(c==='B'){
+    ctx.fillStyle='#111'; ctx.fillRect(X+1,Y+6,18,3); ctx.fillRect(X+2,Y+9,2,8); ctx.fillRect(X+16,Y+9,2,8);
+    ctx.fillStyle='#555'; ctx.fillRect(X+1,Y+4,18,3);
+  }else if(c==='C'){
+    ctx.fillStyle='#111'; ctx.fillRect(X+1,Y+3,18,17);
+    ctx.fillStyle='#6b6b66'; ctx.fillRect(X+2,Y+4,16,15);
+    ctx.fillStyle='#111'; ctx.fillRect(X+2,Y+11,16,1); ctx.fillRect(X+9,Y+4,2,15);
+  }
+}
+function draw(){
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++) MAP[y][x]==='#'?drawWall(x,y):drawFloor(x,y);
+
+  /* 물체와 플레이어를 발 위치(y) 순서로 그려서 앞뒤 가림이 자연스럽게 */
+  const items=[];
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const c=MAP[y][x]; if(c!=='#'&&c!=='.') items.push([y,()=>drawObj(c,x,y)]);}
+  const fx=p.x+(p.tx-p.x)*p.t, fy=p.y+(p.ty-p.y)*p.t;
+  const row=p.moving?(1+Math.floor(p.anim*2))%4:0;   // 한 타일에 2프레임: 0 → 1 → 2 → 3
+  items.push([fy,()=>{ if(img.complete) ctx.drawImage(img,COL[p.dir]*CW,row*CH,CW,CH,Math.round(fx*T),Math.round(fy*T)+T-26,CW,CH); }]);
+  items.sort((a,b)=>a[0]-b[0]).forEach(i=>i[1]());
+
+  /* 가로등 불빛 */
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++) if(MAP[y][x]==='L'){
+    const g=ctx.createRadialGradient(x*T+10,y*T-14,2,x*T+10,y*T-14,46);
+    g.addColorStop(0,'rgba(255,255,230,.28)'); g.addColorStop(1,'rgba(255,255,230,0)');
+    ctx.fillStyle=g; ctx.fillRect(x*T-40,y*T-60,100,110);
+  }
+}
+
+/* 화면 크기에 맞춰 정수 배율로 확대 */
+const sc=$('#scene');
+function fit(){
+  let s=Math.min(sc.clientWidth/(W*T),sc.clientHeight/(H*T)); if(s>=1) s=Math.floor(s);
+  cv.style.width=W*T*s+'px'; cv.style.height=H*T*s+'px';
+}
+new ResizeObserver(fit).observe(sc); fit();
+
+let last=performance.now();
+(function loop(now){ const dt=Math.min((now-last)/1000,.05); last=now; update(dt); draw(); requestAnimationFrame(loop); })(last);
+})();
 </script>
 </body>
 </html>
