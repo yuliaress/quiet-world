@@ -1,0 +1,89 @@
+/* 원래 디자인(검은 바탕 · 종이색 패널 · 이중 테두리 · DeltaGlass 픽셀 글꼴)을 v3 화면 위에 입히는 레이어 */
+@font-face{font-family:'DeltaGlass';src:url('https://cdn.jsdelivr.net/gh/Project-Noonnu/2608201744@deltaglasskr/deltaglasskr/DeltaGlassKR.woff2') format('woff2');font-weight:400;font-display:swap}
+:root{--ink:#111;--paper:#f1f1ee;--paper2:#e6e6e2;--dim:#6b6b66;--line:#111;--muted:#6b6b66;--purple:#111;--room:#e6e6e2;--shadow:none;
+  font-family:'DeltaGlass',monospace;color:#111;background:#000;font-size:17px}
+*,*::before,*::after{border-radius:0!important}
+body{background:#000;color:#111;font-family:'DeltaGlass',monospace;line-height:1.55}
+h1,h2,h3,label,.strong,b,strong{color:#111;font-weight:700;letter-spacing:.03em}
+.muted,.panel-sub,.tiny,small{color:var(--dim)}
+small,.tiny{font-size:13px}
+.skip-link{background:#f1f1ee;color:#111}
+
+/* 바탕 위에 직접 놓이는 글자는 밝게 */
+.page-heading h1,.date-label{color:#f1f1ee}
+.page-heading p{color:#b9b9b4}
+
+/* 상단 바 */
+.topbar{background:#f1f1ee;border:0;border-bottom:2px solid #111;box-shadow:none;backdrop-filter:none}
+.brand-mark{background:#111;border:2px solid #111;box-shadow:none}
+.brand-mark::before,.brand-mark::after{background:#f1f1ee}
+.brand-title{font-weight:700;letter-spacing:.06em}
+.brand-sub,.local-status{color:var(--dim)}
+.navigation a{border:2px solid transparent;color:#111;background:transparent}
+.navigation a:hover{border-color:#111;background:transparent}
+.navigation a.active{background:#111;color:#f1f1ee;border-color:#111}
+.status-dot{background:#111}
+
+/* 패널: 굵은 이중 테두리 */
+.panel,.onboarding,.notice,dialog{background:#f1f1ee;color:#111;border:2px solid #111;box-shadow:inset 0 0 0 2px #f1f1ee,inset 0 0 0 3px #111}
+.panel-head h2{font-weight:700;letter-spacing:.06em}
+.notice,.empty,.pill,.reward-note,.stat-block,.material-card,.badge-card,.recipe,.inventory-item,.resource-strip,.discovery{background:#e6e6e2;border:2px solid #111;box-shadow:none;color:#111}
+.empty{border-style:dashed}
+.error{color:#111;border:2px dashed #111;background:#f1f1ee}
+
+/* 버튼 · 입력 */
+.btn,.icon-btn,.add-btn{border:2px solid #111;background:#f1f1ee;color:#111;box-shadow:none;font-family:inherit}
+.btn:hover,.icon-btn:hover{background:#111;color:#f1f1ee}
+.btn.primary{background:#111;color:#f1f1ee}
+.btn.primary:hover{background:#f1f1ee;color:#111}
+.btn.danger{border-style:dashed;color:#111;background:#f1f1ee}
+.btn.outline{background:transparent}
+.btn:disabled,.btn[disabled]{border-style:dashed;color:var(--dim)}
+.text-link{color:#111;text-decoration:underline}
+input,select,textarea{border:2px solid #111;background:#fff;color:#111;box-shadow:none}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #111;outline-offset:2px}
+
+/* 타이머 · 진행 */
+.timer-number{color:#111;font-family:inherit;font-weight:400;letter-spacing:.03em}
+.progress-track{background:#fff;border:2px solid #111}
+.progress-fill{background:#111}
+
+/* 할 일 · 루틴 · 기분 */
+.todo-row,.routine-row,.timeline li{border-color:#111}
+.todo-toggle,.routine-toggle,.routine-symbol{border:2px solid #111;background:#fff;color:#111}
+.todo-row.done .todo-toggle,.routine-row.done .routine-symbol{background:#111;color:#f1f1ee}
+.todo-category .dot{background:#111}
+.mood-choice{border:2px solid #111;background:#f1f1ee;color:#111}
+.mood-choice.active{background:#111;color:#f1f1ee}
+
+/* 방 */
+.room-scene{background:#e6e6e2;border:2px solid #111;box-shadow:none}
+.room-scene::before{background:linear-gradient(180deg,#e6e6e2 0%,#e6e6e2 55%,#8a8a86 55%,#8a8a86 57%,#c9c7c0 57%)}
+.room-window{background:#f1f1ee;border:4px solid #111;box-shadow:none}
+.room-window::before{background:linear-gradient(90deg,transparent 46%,#6b6b66 46%,#6b6b66 54%,transparent 54%),linear-gradient(transparent 48%,#6b6b66 48%,#6b6b66 54%,transparent 54%)}
+.room-window::after{display:none}
+.wall-note,.wall-label,.scene-caption{color:var(--dim)}
+.room-tile{border-color:#b9b9b4}
+.room-tile.selected{outline:3px solid #111;background:#00000014}
+.room-object,.furniture-swatch,.mai-character,.mai-avatar{filter:grayscale(1) contrast(1.05)}
+.mai-body{background:#444;border-color:#111}
+.mai-name,.mai-says,.room-status{color:#111}
+
+/* 기록 · 수집 */
+.history-days button{border:2px solid #111;background:#f1f1ee;color:#111}
+.history-days button.active{background:#111;color:#f1f1ee}
+.badge-shape{border:2px dashed #111;background:#f1f1ee;filter:grayscale(1)}
+.badge-card.earned .badge-shape{border-style:solid;background:#111;color:#f1f1ee}
+.cost-chip{border:2px solid #111;background:#f1f1ee;color:#111}
+.cost-chip.short{border-style:dashed;color:var(--dim)}
+.days-together strong{color:#111}
+
+/* 대화상자 · 토스트 */
+dialog::backdrop{background:#000000b8}
+dialog{box-shadow:6px 6px 0 #111;border:2px solid #111}
+#toast{background:#111;color:#f1f1ee;border:2px solid #f1f1ee;box-shadow:none}
+
+/* 모바일 하단 메뉴 */
+.bottom-nav{background:#f1f1ee;border-top:2px solid #111;box-shadow:none}
+.bottom-nav a{color:#111;background:transparent}
+.bottom-nav a.active{background:#111;color:#f1f1ee}

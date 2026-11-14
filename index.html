@@ -1,114 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111111">
-<title>QUIET WORLD</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <title>QUIET WORLD · 나의 작은 일상</title>
+  <meta name="description" content="작은 행동을 모아 나만의 방을 가꾸어요. 집중, 할 일, 루틴과 함께하는 조용한 생활 게임이에요.">
+  <meta property="og:title" content="QUIET WORLD · 나의 작은 일상">
+  <meta property="og:description" content="작은 행동을 조각으로, 조각을 나만의 공간으로. 나의 속도로 가꾸는 조용한 생활 게임이에요.">
+  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/theme-original.css">
 </head>
 <body>
-<div class="app">
-
-  <!-- LEFT -->
-  <aside class="col side">
-    <div class="box brand"><span class="leaf ico">🌱</span><div><b>QUIET WORLD</b><span>조용히 켜 두자</span></div></div>
-
-    <div class="box"><div class="lbl">DATE</div>
-      <div class="date"><span id="date"></span><span class="ico">🕒</span></div></div>
-
-    <div class="box"><div class="lbl">TIMER</div>
-      <div class="timer-row"><span class="time" id="time">00:00:00</span><span class="start" id="start-time">시작하지 않음</span></div>
-      <div class="btns"><button class="btn" id="pause" type="button">▶ START</button><button class="btn" id="stop" type="button" disabled>■ STOP</button></div></div>
-
-    <div class="box"><div class="lbl">TODAY PROGRESS</div>
-      <div class="bar"><i id="barfill"></i></div>
-      <div class="pmeta"><span id="pcount">0 / 6</span><span id="ppct">0%</span></div></div>
-
-    <div class="box"><div class="lbl">TODO<small>오늘만 수정 가능</small></div>
-      <div id="todos"></div>
-      <form class="entry-form" id="todo-form">
-        <input id="todo-input" maxlength="80" placeholder="할 일 추가" aria-label="새 할 일" required>
-        <button class="btn" type="submit" aria-label="할 일 추가">+</button>
-      </form></div>
-
-    <div class="box"><div class="lbl">ROUTINE<small>매일 습관 묶음</small></div>
-      <div id="routines"></div>
-      <form class="entry-form" id="routine-form">
-        <input id="routine-name" maxlength="32" placeholder="새 루틴 이름" aria-label="새 루틴 이름" required>
-        <input id="routine-description" maxlength="80" placeholder="간단한 설명 (선택)" aria-label="루틴 설명">
-        <button class="btn" type="submit" aria-label="루틴 추가">+</button>
-      </form></div>
-  </aside>
-
-  <!-- CENTER -->
-  <main class="col center">
-    <section class="box room-panel" aria-labelledby="room-heading">
-      <div class="room-head">
-        <div><div class="lbl" id="room-heading">MY ROOM<small>나만의 작은 방</small></div>
-          <p class="room-help">할 일과 루틴으로 재료를 모으세요. 소품을 골라 배치하고, 놓인 소품을 누르면 회수할 수 있어요.</p></div>
-        <span class="room-count" id="room-count">0 / 32</span>
-      </div>
-      <div class="room-grid" id="room-grid" role="grid" aria-label="내 방 배치 공간"></div>
-      <p class="room-status" id="room-status" aria-live="polite">작업대에서 소품을 만든 뒤 보관함에서 골라 배치하세요.</p>
-      <div class="room-management">
-        <section class="room-section">
-          <h3>보관함</h3>
-          <div class="room-inventory" id="room-inventory"></div>
-        </section>
-        <section class="room-section">
-          <h3>작업대</h3>
-          <div class="craft-grid" id="room-crafting"></div>
-        </section>
-      </div>
-      <div class="room-footer">
-        <span id="pwa-status">오프라인에서도 이어서 할 수 있어요.</span>
-        <button class="btn install-app" id="install-app" type="button" hidden>앱 설치</button>
-      </div>
-    </section>
-
-    <div class="box disc" id="disc">
-      <div class="thumb ico">📕</div>
-      <div><h3>뭔가 떨어져 있다.</h3><p>표지가 다 젖은 낡은 책이다.<br>누가 쓰던 노트 같다.</p></div>
-      <div class="acts"><button class="btn pri" id="take">줍기 ✦</button><button class="btn alt" id="leave">그냥 두기</button></div>
-    </div>
-
-    <div class="box log"><div class="head"><div class="lbl" style="margin:0">DAY LOG<small>오늘의 기록</small></div>
-      <button class="more" id="more">더 보기 ▾</button></div>
-      <ul id="logs"></ul></div>
-  </main>
-
-  <!-- RIGHT -->
-  <aside class="col side">
-    <div class="box"><div class="lbl">DAYS TOGETHER</div>
-      <div class="days"><b>175</b><span>마이랑 지낸 날</span></div></div>
-
-    <div class="box"><div class="lbl">STATE</div>
-      <button class="state mood" id="mood" type="button" aria-label="기분 바꾸기">
-        <span class="ico"></span><span><b></b><small></small></span>
-      </button></div>
-
-    <div class="box"><div class="lbl">FRAGMENT</div>
-      <div class="fgrid" id="frag"></div></div>
-
-    <div class="box"><div class="lbl">BADGE <small id="badge-count">0 / 4</small></div>
-      <div class="bgrid" id="badges"></div></div>
-
-    <div class="mai"><div class="nm">마이</div><div class="bubble">…오늘은<br>조용하네.</div></div>
-  </aside>
-</div>
-<script src="js/storage.js"></script>
-<script src="js/date.js"></script>
-<script src="js/timer.js"></script>
-<script src="js/day-log.js"></script>
-<script src="js/fragments.js"></script>
-<script src="js/todos.js"></script>
-<script src="js/routines.js"></script>
-<script src="js/mood.js"></script>
-<script src="js/badges.js"></script>
-<script src="js/room.js"></script>
-<script src="js/pwa.js"></script>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+  <div id="app"><main class="loading"><span class="brand-mark" aria-hidden="true"></span><h1>나의 작은 세계를 여는 중이에요.</h1><p>잠시만 기다려 주세요.</p></main></div>
+  <dialog id="modal" aria-labelledby="modal-title"></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
